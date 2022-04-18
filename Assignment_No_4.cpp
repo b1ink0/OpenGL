@@ -52,15 +52,9 @@ void floodFill(int x, int y, Color newColor)
     oldColor.r = 0;
     oldColor.g = 0;
     oldColor.b = 0;
-
     Color color;
-
     color = getPixelColor(x, y);
-    if ((color.r == newColor.r && color.g == newColor.g && color.b == newColor.b))
-    {
-        return;
-    }
-    if ((color.r == oldColor.r && color.g == oldColor.g && color.b == oldColor.b))
+    if (color.r == oldColor.r && color.g == oldColor.g && color.b == oldColor.b)
     {
         setPixelColor(x, y, newColor);
         floodFill(x + 1, y, newColor);
@@ -68,6 +62,37 @@ void floodFill(int x, int y, Color newColor)
         floodFill(x - 1, y, newColor);
         floodFill(x, y - 1, newColor);
     }
+}
+
+void drawPolygonSingleColor()
+{
+    glClear(GL_COLOR_BUFFER_BIT);
+    glClearColor(0, 0, 0, 0);
+    glColor3f(1, 0, 0);
+    glBegin(GL_LINE_LOOP);
+    glVertex2f(100, 100);
+    glVertex2f(100, 400);
+    glVertex2f(400, 400);
+    glVertex2f(400, 100);
+    glEnd();
+    glFlush();
+}
+
+void drawPolygonMultiColor()
+{
+    glClear(GL_COLOR_BUFFER_BIT);
+    glClearColor(0, 0, 0, 0);
+    glBegin(GL_LINE_LOOP);
+    glColor3f(1, 0, 0);
+    glVertex2f(100, 100);
+    glColor3f(0, 1, 0);
+    glVertex2f(100, 400);
+    glColor3f(0, 0, 1);
+    glVertex2f(400, 400);
+    glColor3f(1, 0, 1);
+    glVertex2f(400, 100);
+    glEnd();
+    glFlush();
 }
 
 void mouseFun(int btn, int state, int x, int y)
@@ -85,6 +110,7 @@ void mouseFun(int btn, int state, int x, int y)
             ncolor.r = 0;
             ncolor.g = 1;
             ncolor.b = 1;
+            drawPolygonSingleColor();
             boundaryFill(x, y, ocolor, ncolor);
         }
     }
@@ -93,9 +119,10 @@ void mouseFun(int btn, int state, int x, int y)
         if (state == GLUT_DOWN)
         {
             Color ncolor;
-            ncolor.r = 0;
-            ncolor.g = 0;
-            ncolor.b = 1;
+            ncolor.r = 1;
+            ncolor.g = 1;
+            ncolor.b = 0;
+            drawPolygonMultiColor();
             floodFill(x, y, ncolor);
         }
     }
@@ -112,16 +139,7 @@ void display(void)
 {
     glLineWidth(3);
     glPointSize(1);
-    glClear(GL_COLOR_BUFFER_BIT);
-    glClearColor(0, 0, 0, 0);
-    glColor3f(1, 0, 0);
-    glBegin(GL_LINE_LOOP);
-    glVertex2f(100, 100);
-    glVertex2f(100, 400);
-    glVertex2f(400, 400);
-    glVertex2f(400, 100);
-    glEnd();
-    glFlush();
+    drawPolygonSingleColor();
 }
 
 int main(int argc, char **argv)
