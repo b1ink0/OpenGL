@@ -1,6 +1,8 @@
 #include <iostream>
 #include <math.h>
+#include <queue>
 #include <GL/glut.h>
+
 using namespace std;
 int w = 500;
 int h = 500;
@@ -8,6 +10,11 @@ int h = 500;
 struct Color
 {
     float r, g, b;
+};
+
+struct XY
+{
+    int x, y;
 };
 
 Color getPixelColor(int x, int y)
@@ -49,18 +56,40 @@ void boundaryFill(int x, int y, Color oldColor, Color newColor)
 void floodFill(int x, int y, Color newColor)
 {
     Color oldColor;
+    Color color;
+    XY xy, xy_sub;
+    queue<XY> q;
+
     oldColor.r = 0;
     oldColor.g = 0;
     oldColor.b = 0;
-    Color color;
-    color = getPixelColor(x, y);
-    if (color.r == oldColor.r && color.g == oldColor.g && color.b == oldColor.b)
+
+    xy.x = x;
+    xy.y = y;
+
+    q.push(xy);
+
+    while (!q.empty())
     {
-        setPixelColor(x, y, newColor);
-        floodFill(x + 1, y, newColor);
-        floodFill(x, y + 1, newColor);
-        floodFill(x - 1, y, newColor);
-        floodFill(x, y - 1, newColor);
+        xy_sub = q.front();
+        color = getPixelColor(xy_sub.x, xy_sub.y);
+        if (color.r == oldColor.r && color.g == oldColor.g && color.b == oldColor.b)
+        {
+            setPixelColor(xy_sub.x, xy_sub.y, newColor);
+            xy.x = xy_sub.x + 1;
+            xy.y = xy_sub.y;
+            q.push(xy);
+            xy.x = xy_sub.x - 1;
+            xy.y = xy_sub.y;
+            q.push(xy);
+            xy.x = xy_sub.x;
+            xy.y = xy_sub.y + 1;
+            q.push(xy);
+            xy.x = xy_sub.x;
+            xy.y = xy_sub.y - 1;
+            q.push(xy);
+        }
+        q.pop();
     }
 }
 

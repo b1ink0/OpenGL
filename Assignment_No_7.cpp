@@ -60,7 +60,7 @@ void koch(int x1, int y1, int x2, int y2, int n)
 
 void display(void)
 {
-    koch(0, 250, 500, 250, 2);
+    koch(0, 250, 500, 250, 1);
 }
 
 void myInit()
@@ -76,7 +76,7 @@ int main(int argc, char **argv)
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
     glutInitWindowSize(w, h);
     glutInitWindowPosition(0, 0);
-    glutCreateWindow("New");
+    glutCreateWindow("Assignment 7 Koch");
     glutDisplayFunc(display);
     myInit();
     glutMainLoop();
