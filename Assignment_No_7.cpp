@@ -60,7 +60,7 @@ void koch(int x1, int y1, int x2, int y2, int n)
 
 void display(void)
 {
-    koch(0, 250, 500, 250, 2);
+    koch(0, 250, 500, 250, 0);
 }
 
 void myInit()

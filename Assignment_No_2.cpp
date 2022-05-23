@@ -349,7 +349,7 @@ void menu_bh(int a)
     switch (a)
     {
     case 1:
-        BH_simple(10, 50, 150, 200);
+        BH_simple(0, 0, 100, 250);
         break;
     case 2:
         BH_dashed(10, 50, 150, 200);
